@@ -17,18 +17,13 @@ connection.connect();
 
 connection.query("SELECT * FROM products as solution", function(error,results) {
   if (error) throw error;
-
-  for (var i = 0; i < results.length; i++) {
-    products_table.push([
-      results[i].id,
-      results[i].product_name,
-      results[i].department_name,
-      results[i].price,
-      results[i].stock_quantity
-    ]);
-  }
+  results.forEach(product => pushTotable(product));
 
   console.log(products_table.toString());
 });
 
 connection.end();
+
+function pushTotable (element) {
+  products_table.push([element.id, element.product_name, element.department_name, element.price, element.stock_quantity]);
+}
