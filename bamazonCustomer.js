@@ -15,11 +15,20 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-connection.query("SELECT * FROM products as solution", function( error,results) {
+connection.query("SELECT * FROM products as solution", function(error,results) {
   if (error) throw error;
 
+  for (var i = 0; i < results.length; i++) {
+    products_table.push([
+      results[i].id,
+      results[i].product_name,
+      results[i].department_name,
+      results[i].price,
+      results[i].stock_quantity
+    ]);
+  }
+
   console.log(products_table.toString());
-  console.log(results[0]);
 });
 
 connection.end();
