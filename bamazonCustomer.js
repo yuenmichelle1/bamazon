@@ -6,7 +6,6 @@ var productsArr;
 var customerProductid;
 var customerQuantity;
 var customerProduct;
-var productIds;
 
 var products_table = new Table({
   head: [
@@ -34,7 +33,6 @@ connection.query("SELECT * FROM products as solution", function(
   if (error) throw error;
   productsArr = results;
   productsArr.forEach(product => pushTotable(product));
-  // productIds = productsArr.map(product => product.id);
   console.log(products_table.toString());
   inquireCustomer();
 });
@@ -57,8 +55,7 @@ function inquireCustomer() {
         type: "list",
         message: "What is the ID of the product you want to buy?",
         name: "productChoice",
-        choices: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
-        // choices: productsIds map it
+        choices: productsArr.map(product => `${product.id}`)
       },
       {
         type: "input",
@@ -67,7 +64,6 @@ function inquireCustomer() {
       }
     ])
     .then(function(inquirerResponse) {
-      //note to self returns a string need parseInt to turn back to numbah
       customerProductid = inquirerResponse.productChoice;
       customerQuantity = +inquirerResponse.unitsBought;
       if (Number.isInteger(customerQuantity) && customerQuantity >= 0) {
@@ -90,7 +86,7 @@ function checkStock() {
   if (customerQuantity <= customerProduct.stock_quantity) {
     updateDB();
   } else {
-    console.log(`Insufficient Quantity!`);
+    console.log(`Insufficient Quantity!`.red);
     inquireCustomer();
   }
 }
@@ -112,7 +108,7 @@ function updateDB() {
       if (error) throw error;
       var customerReceipt = customerQuantity * customerProduct.price;
       console.log(
-        `Your total cost of your purchase is $${customerReceipt}. Thanks for shopping at BAMazon!`.magenta
+        `Your total cost of your purchase (${customerQuantity} units of ${customerProduct.product_name}) is $${customerReceipt}. Thanks for shopping at BAMazon!`.magenta
       );
       connection.end();
     }
