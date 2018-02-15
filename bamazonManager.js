@@ -26,6 +26,8 @@ var connection = mysql.createConnection({
   database: "bamazon_db"
 });
 
+connection.connect();
+
 //list a set of menu items [A) View Products for Sale, B) View Low Inventory, C) Add TO Inventory, D)Add New Product]
 //IF A) then show the products table (inquire confirm Would you like to do anything else?, if yes, inquire manager, if no, end)
 //If B) View Low Inventory , list all items that are have stock Quantity < 5, inquire confirm Would you like to do anything else?, if yes, inquire manager, if no, end )
@@ -53,24 +55,37 @@ function doCommand(command) {
   switch (command) {
     //Case:  View Products for Sale
     case commandsArr[0]:
-      showProductstable();
+    showProductstable();
   }
 }
 
 function showProductstable() {
-  connection.connect();
-
   connection.query("SELECT * FROM products as solution", function(error,results) {
     if (error) throw error;
     var productsArr = results;
     productsArr.forEach(product => pushTotable(product));
     console.log(products_table.toString());
-    connection.end();
+    askToDoAgain();
   });
+
 }
 
 function pushTotable(element) {
   products_table.push([element.id, element.product_name, element.department_name, ` $ ${element.price}`, element.stock_quantity]);
+}
+
+function askToDoAgain () {
+    inquirer.prompt([{
+        type: "confirm",
+        message: "Do you want to do anything else?",
+        name: "doAgain"
+    }]).then(function(inquirerResponse){
+        if (inquirerResponse.doAgain) {
+            inquireManager();
+        } else {
+            connection.end();
+        }
+    })
 }
 
 inquireManager();
