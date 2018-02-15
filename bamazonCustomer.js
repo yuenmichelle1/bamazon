@@ -112,7 +112,7 @@ function updateDB() {
       if (error) throw error;
       var customerReceipt = customerQuantity * customerProduct.price;
       console.log(
-        `Your total cost of your purchase is ${`$${customerReceipt}`.green}. Thanks for shopping at BAMazon!`
+        `Your total cost of your purchase is $${customerReceipt}. Thanks for shopping at BAMazon!`.magenta
       );
       connection.end();
     }
