@@ -2,11 +2,11 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var Table = require("cli-table");
 var colors = require("colors");
-var commandsArr = ["View Products for Sale", "View Low Inventory","Add To Inventory","Add New Product"];
+var commandsArr = ["View Products for Sale","View Low Inventory","Add To Inventory","Add New Product"];
 
 //Create a table with headings: item id, product name, department name, price, quantity in a pretty blue color
 var products_table = new Table({
-  head: ["Item Id".cyan, "Product Name".cyan, "Department Name".cyan, "Price".cyan, "# In Stock".cyan]
+  head: ["Item Id".cyan, "Product Name".cyan, "Department Name".cyan, "Price".cyan,"# In Stock".cyan]
 });
 
 var connection = mysql.createConnection({
@@ -49,30 +49,9 @@ function doCommand(command) {
       break;
     //CASE: VIEW LOW INVENTORY
     case commandsArr[1]:
+        showLowInventory();
+        break;
   }
-}
-
-function showProductstable() {
-  connection.query("SELECT * FROM products as solution", function(
-    error,
-    results
-  ) {
-    if (error) throw error;
-    var productsArr = results;
-    productsArr.forEach(product => pushTotable(product));
-    console.log(products_table.toString());
-    askToDoAgain();
-  });
-}
-
-function pushTotable(element) {
-  products_table.push([
-    element.id,
-    element.product_name,
-    element.department_name,
-    ` $ ${element.price}`,
-    element.stock_quantity
-  ]);
 }
 
 function askToDoAgain() {
@@ -92,5 +71,39 @@ function askToDoAgain() {
       }
     });
 }
+
+function showProductstable() {
+  connection.query("SELECT * FROM products as solution", function(
+    error,
+    results
+  ) {
+    if (error) throw error;
+    var productsArr = results;
+    productsArr.forEach(product => pushTotable(products_table, product));
+    console.log(products_table.toString());
+    askToDoAgain();
+  });
+}
+
+function pushTotable(table, element) {
+  table.push([element.id, element.product_name, element.department_name, ` $ ${element.price}`, element.stock_quantity]);
+}
+
+function showLowInventory(){
+    var lowStock_table = new Table({
+        head: ["Item Id".red, "Product Name".red, "Department Name".red, "Price".red,"# In Stock".red]
+    });
+    connection.query("SELECT * FROM products as solution", function(error, results) {
+        if (error) throw error;
+        var productsArr = results;
+        // productsArr.forEach(product => pushTotable(product));
+        console.log(productsArr);
+      });
+}
+
+// function checkIfstockLow (arrObj) {
+//     var low
+//     if (arrObj.stock_quantity < 5)
+// }
 
 inquireManager();
