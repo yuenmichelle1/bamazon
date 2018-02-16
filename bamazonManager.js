@@ -3,6 +3,7 @@ var inquirer = require("inquirer");
 var Table = require("cli-table");
 var colors = require("colors");
 var commandsArr = ["View Products for Sale","View Low Inventory","Add To Inventory","Add New Product"];
+var productsArr;
 
 //Create a table with headings: item id, product name, department name, price, quantity in a pretty blue color
 var products_table = new Table({
@@ -51,6 +52,12 @@ function doCommand(command) {
     case commandsArr[1]:
         showLowInventory();
         break;
+    //CASE: ADD TO INVENTORY    
+    case commandsArr[2]:
+      inquireItemtoRestock();
+      break;
+    default:
+      break;    
   }
 }
 
@@ -78,7 +85,7 @@ function showProductstable() {
     results
   ) {
     if (error) throw error;
-    var productsArr = results;
+    productsArr = results;
     productsArr.forEach(product => pushTotable(products_table, product));
     console.log(products_table.toString());
     askToDoAgain();
@@ -93,17 +100,27 @@ function showLowInventory(){
     var lowStock_table = new Table({
         head: ["Item Id".red, "Product Name".red, "Department Name".red, "Price".red,"# In Stock".red]
     });
-    connection.query("SELECT * FROM products as solution", function(error, results) {
+    connection.query("SELECT * FROM products as solution WHERE stock_quantity < 5", function(error, results) {
         if (error) throw error;
-        var productsArr = results;
-        // productsArr.forEach(product => pushTotable(product));
-        console.log(productsArr);
+        var productsArray = results;
+        productsArray.forEach(product => pushTotable(lowStock_table, product));
+        console.log(lowStock_table.toString());
+        askToDoAgain();
       });
 }
 
-// function checkIfstockLow (arrObj) {
-//     var low
-//     if (arrObj.stock_quantity < 5)
-// }
+function inquireItemtoRestock() {
+  inquirer.prompt([{
+    type: "list",
+    message: "What is the Product Id you want to restock?",
+    name: "itemRestockid", 
+    choices: productsArr.map(product => `${product.id}`)
+  }]).then(function(inquirerResponse){
+    console.log(inquirerResponse.itemRestockid);
+    askToDoAgain();
+  })
+}
+
+
 
 inquireManager();
