@@ -66,6 +66,10 @@ function doCommand(command) {
     case commandsArr[2]:
       inquireItemtoRestock();
       break;
+    //CASE: ADD NEW PRODUCT  
+    case commandsArr[3]:
+      inquireNewProduct();
+      break;
     default:
       break;
   }
@@ -162,13 +166,13 @@ function inquireItemtoRestock(arr) {
         connection.query(`SELECT stock_quantity FROM products WHERE id = ${productId}`, function (err, results){
           if (err) throw err;
           var currentStock = +results[0].stock_quantity;
-          addProduct(unitsToAdd + currentStock, productId);
+          addStock(unitsToAdd + currentStock, productId);
         })
       });
   });
 }
 
-function addProduct(units, id) {
+function addStock(units, id) {
   connection.query(
     "UPDATE products SET ? WHERE ?",
     [
@@ -190,6 +194,49 @@ function addProduct(units, id) {
 function validateNumber(userInput) {
   var reg = /^\d+$/;
   return reg.test(userInput) || "Should be a number!";
+}
+
+//IF D) What product name, dept name, price, stock quantity, INSERT into SQL table, print product_name has been added. Do/Inquire anything else? if no, end
+function inquireNewProduct(){
+  inquirer.prompt([{
+    type: "input",
+    name: "prod_name",
+    message: "What is the product name you want to add?"
+  },{
+    type: "input",
+    name: "dept_name",
+    message: "What department should it belong to?"
+  },{
+    type: "input",
+    name: "price",
+    message: "What is the product's price?",
+    validate: validateNumber
+  },{
+    type: "input",
+    name: "quantity",
+    message: "How much units do you want to add to the Inventory?",
+    validate: validateNumber
+  }]).then(function(response){
+    addNewProduct(response);
+
+  })
+}
+function addNewProduct(answer){
+  connection.query(
+    "INSERT INTO products SET ?",
+    {
+      product_name: answer.prod_name,
+      department_name: answer.dept_name,
+      price: answer.price,
+      stock_quantity: answer.quantity
+    },function(err) {
+      if (err) throw err;
+      console.log("Your new product was added successfully!");
+      // re-prompt the user for if they want to bid or post
+      inquireManager();
+    }
+  );
+
 }
 
 inquireManager();
