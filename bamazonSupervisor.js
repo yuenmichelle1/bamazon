@@ -7,11 +7,6 @@ var departments_table = new Table({
 })
 var deptsArr;
 
-//list a set of menu options
-//A) View Product Sales By dept
-//A) View Sales()-> display summarized table of department id, department name, overhead costs, product_sales, total_profit
-//total_profit = product_sales - over_head_costs
-
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -54,7 +49,6 @@ function inquireSupervisor() {
       }
     });
 }
-//Table DptId|| Name || Overhead || Product Sales (from products) || Total Profit
 function showProductSales() {
     // var departments_table = new Table({
     //     head: ["Department Id".cyan, "Department Name".cyan, "Overhead Costs".cyan, "Product Sales".cyan, "Total Profit".cyan]
