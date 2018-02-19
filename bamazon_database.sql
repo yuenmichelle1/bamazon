@@ -25,8 +25,8 @@ VALUES ("Kitchenaid Mixer", "Home and Kitchen", 230, 20),  ("firestick", "Electr
 
 CREATE TABLE departments (
   id INTEGER AUTO_INCREMENT NOT NULL, 
-  department_name VARCHAR(50),
-  over_head_costs INTEGER(10),
+  department_name VARCHAR(50) NOT NULL,
+  over_head_costs INTEGER(10) NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -37,3 +37,5 @@ SELECT * FROM departments;
 ALTER TABLE products ADD COLUMN product_sales INTEGER(10) NOT NULL DEFAULT 0; 
 
 SELECT * FROM products;
+
+SELECT departments.id, departments.department_name,departments.over_head_costs, SUM(products.product_sales) AS alias, (SUM(products.product_sales) - departments.over_head_costs) AS total_profit FROM departments LEFT JOIN products ON departments.department_name = products.department_name GROUP BY departments.id;
