@@ -85,7 +85,6 @@ function checkStock() {
   }
 }
 
-//grab original product sales add customer's receipt
 
 
 function updateDB() {
@@ -110,7 +109,6 @@ function updateDB() {
       console.log(
         `Your total cost of your purchase (${customerQuantity} units of ${customerProduct.product_name}) is $${customerReceipt}. Thanks for shopping at BAMazon!`.magenta
       );
-      console.log(new_product_sales);
       connection.end();
     }
   );
