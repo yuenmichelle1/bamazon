@@ -60,7 +60,7 @@ function doCommand(command) {
     case commandsArr[2]:
       inquireItemtoRestock();
       break;
-    //CASE: ADD NEW PRODUCT  
+    //CASE: ADD NEW PRODUCT
     case commandsArr[3]:
       inquireNewProduct();
       break;
@@ -157,11 +157,14 @@ function inquireItemtoRestock(arr) {
       .then(function(inquirerResponse) {
         var unitsToAdd = +inquirerResponse.units;
         var productId = +inquirerResponse.itemRestockid;
-        connection.query(`SELECT stock_quantity FROM products WHERE id = ${productId}`, function (err, results){
-          if (err) throw err;
-          var currentStock = +results[0].stock_quantity;
-          addStock(unitsToAdd + currentStock, productId);
-        })
+        connection.query(
+          `SELECT stock_quantity FROM products WHERE id = ${productId}`,
+          function(err, results) {
+            if (err) throw err;
+            var currentStock = +results[0].stock_quantity;
+            addStock(unitsToAdd + currentStock, productId);
+          }
+        );
       });
   });
 }
@@ -179,7 +182,9 @@ function addStock(units, id) {
     ],
     function(error, results, fields) {
       if (error) throw error;
-      console.log(`Your item has been restocked new stock quantity for Product Id ${id} is ${units}`);
+      console.log(
+        `Your item has been restocked new stock quantity for Product Id ${id} is ${units}`
+      );
       askToDoAgain();
     }
   );
@@ -191,31 +196,37 @@ function validateNumber(userInput) {
 }
 
 //IF D) What product name, dept name, price, stock quantity, INSERT into SQL table, print product_name has been added. Do/Inquire anything else? if no, end
-function inquireNewProduct(){
-  inquirer.prompt([{
-    type: "input",
-    name: "prod_name",
-    message: "What is the product name you want to add?"
-  },{
-    type: "input",
-    name: "dept_name",
-    message: "What department should it belong to?"
-  },{
-    type: "input",
-    name: "price",
-    message: "What is the product's price?",
-    validate: validateNumber
-  },{
-    type: "input",
-    name: "quantity",
-    message: "How much units do you want to add to the Inventory?",
-    validate: validateNumber
-  }]).then(function(response){
-    addNewProduct(response);
-
-  })
+function inquireNewProduct() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "prod_name",
+        message: "What is the product name you want to add?"
+      },
+      {
+        type: "input",
+        name: "dept_name",
+        message: "What department should it belong to?"
+      },
+      {
+        type: "input",
+        name: "price",
+        message: "What is the product's price?",
+        validate: validateNumber
+      },
+      {
+        type: "input",
+        name: "quantity",
+        message: "How much units do you want to add to the Inventory?",
+        validate: validateNumber
+      }
+    ])
+    .then(function(response) {
+      addNewProduct(response);
+    });
 }
-function addNewProduct(answer){
+function addNewProduct(answer) {
   connection.query(
     "INSERT INTO products SET ?",
     {
@@ -223,14 +234,14 @@ function addNewProduct(answer){
       department_name: answer.dept_name,
       price: answer.price,
       stock_quantity: answer.quantity
-    },function(err) {
+    },
+    function(err) {
       if (err) throw err;
       console.log("Your new product was added successfully!");
       // re-prompt the user for if they want to bid or post
       inquireManager();
     }
   );
-
 }
 
 inquireManager();

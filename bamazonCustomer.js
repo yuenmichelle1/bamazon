@@ -39,13 +39,7 @@ connection.query("SELECT * FROM products as solution", function(
 
 
 function pushTotable(element) {
-  products_table.push([
-    element.id,
-    element.product_name,
-    element.department_name,
-    ` $ ${element.price}`,
-    element.stock_quantity
-  ]);
+  products_table.push([element.id, element.product_name, element.department_name,` $ ${element.price}`,element.stock_quantity]);
 }
 
 function inquireCustomer() {
@@ -91,14 +85,21 @@ function checkStock() {
   }
 }
 
+//grab original product sales add customer's receipt
+
+
 function updateDB() {
   var originalStockQuantity = +customerProduct.stock_quantity;
   var newStockQuantity = originalStockQuantity - customerQuantity;
+  var customerReceipt = customerQuantity * customerProduct.price;
+  var original_product_sales = +customerProduct.product_sales;
+  var new_product_sales = original_product_sales + customerReceipt;
   connection.query(
     "UPDATE products SET ? WHERE ?",
     [
       {
-        stock_quantity: newStockQuantity
+        stock_quantity: newStockQuantity,
+        product_sales: new_product_sales
       },
       {
         id: customerProductid
@@ -106,10 +107,10 @@ function updateDB() {
     ],
     function(error, results, fields) {
       if (error) throw error;
-      var customerReceipt = customerQuantity * customerProduct.price;
       console.log(
         `Your total cost of your purchase (${customerQuantity} units of ${customerProduct.product_name}) is $${customerReceipt}. Thanks for shopping at BAMazon!`.magenta
       );
+      console.log(new_product_sales);
       connection.end();
     }
   );
