@@ -13,6 +13,7 @@ A command line Amazon-like store using `MySQL`, `Node.js`, `inquirer`. `cli-tabl
 > ![bamazon Customer1](assets/bamazonCustomer1.gif)
 * If the store does not have the correct quantity, CLI will display `Insufficient Quantity!` and prompt you to buy something else. 
 > ![bamazon Customer1](assets/bamazonCustomer2.gif)
+* To quit, either buy something and receive a receipt or press `Ctrl + C` in your command line. 
 
 ##bamazonManager
 * Start by entering `node bamazonManager` in your command line.
@@ -23,6 +24,19 @@ A command line Amazon-like store using `MySQL`, `Node.js`, `inquirer`. `cli-tabl
     2. If you choose  `View Low Inventory`:
         * You will be shown a table of products in the inventory that is has less than 5 units in stock. 
         > ![bamazon Manager](assets/bamManLow.gif)  
-    3.       
+    3. If you choose `Add to Inventory`:
+        * You will be prompted what ID of the product you want to restock and how many units.
+        * Upon success of restock, you will be notified of sucess and database/inventory will be updated. 
+        > ![bamazon Manager](assets/bamManRestock.gif)  
+    4. If you choose `Add New Product`:
+        * You will be prompted the name of the product you want to add, what department the new product belongs in, and how many units you want to add. 
+        * Upon sucess, you will be notified and be asked if you want to do another task. 
+        > ![bamazon Manager](assets/bamManAddProd.gif)  
+* To quit, either pick `No` after finishing a task or press `Ctrl+C` in your command line.
+
+##bamazonSupervisor
+* Start by entering `node bamazonSupervisor` in your command line. 
+
+             
     
 
