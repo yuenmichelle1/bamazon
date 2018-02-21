@@ -15,7 +15,7 @@ A command line Amazon-like store using `MySQL`, `Node.js`, `inquirer`. `cli-tabl
 > ![bamazon Customer1](assets/bamazonCustomer2.gif)
 * To quit, either buy something and receive a receipt or press `Ctrl + C` in your command line. 
 
-##bamazonManager
+## bamazonManager
 * Start by entering `node bamazonManager` in your command line.
 * You will be a list of different tasks to choose from: View Products, View Low Inventory, Add to Inventory (i.e. Restock), Add New Product. 
     1. If you choose `View Products`: 
@@ -34,8 +34,14 @@ A command line Amazon-like store using `MySQL`, `Node.js`, `inquirer`. `cli-tabl
         > ![bamazon Manager](assets/bamManAddProd.gif)  
 * To quit, either pick `No` after finishing a task or press `Ctrl+C` in your command line.
 
-##bamazonSupervisor
+## bamazonSupervisor
 * Start by entering `node bamazonSupervisor` in your command line. 
+* You will then be prompted to choose between `View Product Sales By Department` or `Add New Department`
+    * If you choose `View Product Sales By Department`, you will be shown a table of department ids, department names, overhead costs, product sales, and total profit from sales made from bamazonCustomers. 
+     > ![bamazon Manager](assets/bamazonSupervisor)
+    * If you choose `Add New Department`, you will be asked name of the dept and overhead costs.
+    * Upon success, you will be notified and your new department will be added to department data. 
+    > ![bamazon Manager](assets/bamSupervisorNewDept.gif)
 
              
     

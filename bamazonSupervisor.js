@@ -50,9 +50,6 @@ function inquireSupervisor() {
     });
 }
 function showProductSales() {
-    // var departments_table = new Table({
-    //     head: ["Department Id".cyan, "Department Name".cyan, "Overhead Costs".cyan, "Product Sales".cyan, "Total Profit".cyan]
-    // })
     var sqlQuery = "SELECT departments.id, departments.department_name,departments.over_head_costs, SUM(products.product_sales) AS alias, SUM(products.product_sales) - departments.over_head_costs AS total_profit FROM departments LEFT JOIN products ON departments.department_name = products.department_name GROUP BY departments.id;"
     connection.query(sqlQuery, function(err, results){
         if (err) throw err;
