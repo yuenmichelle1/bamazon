@@ -19,6 +19,10 @@ A command line Amazon-like store using `MySQL`, `Node.js`, `inquirer`. `cli-tabl
 * You will be a list of different tasks to choose from: View Products, View Low Inventory, Add to Inventory (i.e. Restock), Add New Product. 
     1. If you choose `View Products`: 
         * You will be shown a table of products in the inventory. 
-        >> ![bamazon Manager](assets/bamManProds.gif)
+        > ![bamazon Manager](assets/bamManProds.gif)
+    2. If you choose  `View Low Inventory`:
+        * You will be shown a table of products in the inventory that is has less than 5 units in stock. 
+        > ![bamazon Manager](assets/bamManLow.gif)  
+    3.       
     
 
