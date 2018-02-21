@@ -38,10 +38,10 @@ A command line Amazon-like store using `MySQL`, `Node.js`, `inquirer`. `cli-tabl
 * Start by entering `node bamazonSupervisor` in your command line. 
 * You will then be prompted to choose between `View Product Sales By Department` or `Add New Department`
     * If you choose `View Product Sales By Department`, you will be shown a table of department ids, department names, overhead costs, product sales, and total profit from sales made from bamazonCustomers. 
-     > ![bamazon Manager](assets/bamazonSupervisor)
+     > ![bamazon Supervisor1](assets/bamazonSupervisor.png)
     * If you choose `Add New Department`, you will be asked name of the dept and overhead costs.
     * Upon success, you will be notified and your new department will be added to department data. 
-    > ![bamazon Manager](assets/bamSupervisorNewDept.gif)
+     > ![bamazon Supervisor](assets/bamSupervisorNewDept.gif)
 
              
     
